@@ -22,6 +22,26 @@
 
   <style>
 
+    /* decalro variables en CSS*/
+
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+  /* Aplico las variables a la imagen*/
+
+    img {
+      background-color: var(--base);
+      padding: var(--spacing);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base)
+    }
+
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -43,8 +63,27 @@
       width: 100px;
     }
   </style>
-
   <script>
+    // I select all the inputs in the page -- > It give us back a node list != to an array (has more methods associates)
+    const inputs = document.querySelectorAll('.controls input');
+    function handleUpdate () {
+      // data-set is an object that contains all the data atributes from an specific element
+      // In this case "this" is input.
+      const suffix = this.dataset.sizing || '';
+      // document --> Representa todo el documento con todos sus elementos
+      // documentElement --> Representa todos los elementos que contienen el html (head & body)
+      // seyProperty -- > función donde primero pongo lo que quiero afectar y luego el value.
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix)
+      console.log(`--${this.name}`)
+      console.log(suffix);
+      // We are going to select our entire document --> root --> and set a property
+
+    }
+
+    // We are gonna listen for a CHANGE EVENT for each input
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    // We are gonna listen for a MOUSE MOVE EVENT as well.
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
   </script>
 
 </body>
