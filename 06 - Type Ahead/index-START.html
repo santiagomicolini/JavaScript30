@@ -21,10 +21,59 @@ const cities = [];
 // fetch va a buscar la data --> It dosn't return de data, return a Promise.
 // We work with fetch and we call .then and we have to transform the data that we get to a format that we can actualy use it.
 //In this case, we jave Json.
+
 fetch(endpoint)
   .then(blob => blob.json())
-  .then(data => console.log(data));
+  // now we are going to put all the data into the cities array (...data) --> we create individuals items into the array
+  .then(data => cities.push(...data));
 
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    // Have a look to regex
+    const regex = new RegExp(wordToMatch, 'gi');
+    return place.city.match(regex) || place.state.match(regex)
+  })
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// function function_name(parameter) {
+// example function great(name) --> the great function has one parameter that is the name. A function can have multiple parameters
+// name is a function that has only meaning inside this fuction
+  // body of the function -- logic on the application.
+  //
+// }
+// we can call the funcion
+// function_name();
+// And when we call that function we have to use an argument
+// great('Jhon'); beeing 'Jhon' --> an argument.
+// https://www.youtube.com/watch?v=N8ap4k_1QEQ
+
+
+function displayMatches() {
+  const matchArray = findMatches(this.value, cities);
+  const html = matchArray.map(place => {
+    const regex = new RegExp(this.value, 'gi');
+    const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
+    const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
+    return `
+    <li>
+      <span class="name">${cityName}, ${stateName}</span>
+      <span class="population">${numberWithCommas(place.population)}</span>
+    </li>
+    `;
+  }).join('');
+suggestions.innerHTML = html;
+}
+
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches);
 </script>
 </body>
 </html>
