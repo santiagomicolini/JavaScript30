@@ -16,6 +16,14 @@
   </form>
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+const cities = [];
+
+// fetch va a buscar la data --> It dosn't return de data, return a Promise.
+// We work with fetch and we call .then and we have to transform the data that we get to a format that we can actualy use it.
+//In this case, we jave Json.
+fetch(endpoint)
+  .then(blob => blob.json())
+  .then(data => console.log(data));
 
 </script>
 </body>
