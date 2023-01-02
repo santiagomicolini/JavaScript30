@@ -7,6 +7,54 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  // Fist we select our canvas using the id;
+  const canvas = document.querySelector('#draw');
+  // We are going to grab the content
+  const ctx = canvas.getContext('2d');
+  // We are going to make our canvas de exact size of the window;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  ctx.strokeStyle = '#BADA55';
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 100;
+
+  // this line make that we only draw when we are actualy clicking;
+
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  function draw(e) {
+    //if there is not drawing --> will stop the function from running when they are not mouseed down
+    if(!isDrawing) return;
+      console.log (e);
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+    ctx.lineWidth = hue;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    //this values (offsetX, offsetY come from the console when the event is happening)
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+    // this is going to increment the value of hue as long as we move the mouse
+    hue++;
+    if (hue >= 360) {
+      hue = 0;
+    }
+  }
+  //When I move the mouse in the canvas is going to console.log de function draw
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+  });
+
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
 </script>
 
 <style>
