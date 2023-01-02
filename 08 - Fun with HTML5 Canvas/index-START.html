@@ -26,12 +26,12 @@
   let lastX = 0;
   let lastY = 0;
   let hue = 0;
+  let direction = true;
   function draw(e) {
     //if there is not drawing --> will stop the function from running when they are not mouseed down
     if(!isDrawing) return;
       console.log (e);
     ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
-    ctx.lineWidth = hue;
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     //this values (offsetX, offsetY come from the console when the event is happening)
@@ -44,6 +44,15 @@
     if (hue >= 360) {
       hue = 0;
     }
+    if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+      direction = !direction;
+    }
+    if (direction) {
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
+
   }
   //When I move the mouse in the canvas is going to console.log de function draw
   canvas.addEventListener('mousemove', draw);
