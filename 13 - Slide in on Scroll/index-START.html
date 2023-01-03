@@ -58,6 +58,30 @@
       };
     }
 
+    // By default we have the images hidden (oppacity 0 and off screen)
+    // We are going to select all the images that we are going to work with (they all have a class slide-in);
+    // Window.scrollY tell us where in the screen are we scrolling at the very top -- > we want to know the bottom
+    //    so we add window.innerHight
+
+    const sliderImages = document.querySelectorAll('.slide-in');
+    // We create a function that run everytime that the person scroll
+    function checkSlide(e) {
+      sliderImages.forEach(sliderImage => {
+        // slideInAt give us the half of the image
+        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;
+        // we use image bottom because we want to hide de image when we scroll up as well
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+        if(isHalfShown && isNotScrolledPast) {
+          sliderImage.classList.add('active');
+        } else {
+          sliderImage.classList.remove('active');
+        }
+      });
+    }
+    // the function checkSlide is running multiple times, so we use the function debounce to run less times
+    window.addEventListener('scroll', debounce(checkSlide));
   </script>
 
   <style>
@@ -68,11 +92,11 @@
       font-size: 20px;
       font-weight: 200;
     }
-    
+
     body {
       margin: 0;
     }
-    
+
     *, *:before, *:after {
       box-sizing: inherit;
     }
@@ -107,7 +131,7 @@
     .align-left.slide-in {
       transform: translateX(-30%) scale(0.95);
     }
-    
+
     .align-right.slide-in {
       transform: translateX(30%) scale(0.95);
     }
