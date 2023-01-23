@@ -33,14 +33,18 @@
 
  function addItem(e) {
     e.preventDefault();
+    // this.querySelector, hace referencia al form
     const text = (this.querySelector('[name = item]')).value;
     const item = {
       text,
       done: false,
     };
+    // we take the item and we put it into the empty array (line 31)
     items.push(item);
     populateList(items, itemsList);
     localStorage.setItem('items', JSON.stringify(items));
+    // this.reset, limpia el input del form cuando hacemos submit.
+    // the form element tiene incporporado el metodo reset.
     this.reset();
  };
 
